@@ -1,0 +1,24 @@
+.header {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  background-color: rgb(124, 124, 124);
+
+  width: 50vw;
+  height: 80px;
+
+  &__img {
+    width: 40px;
+    height: 40px;
+    margin-left: 50px;
+    border-radius: 5px;
+  }
+  &__text {
+    color: rgb(209, 188, 255);
+    margin-left: 10px;
+    font-size: 36px;
+    font-family: "Monospace", Monospace;
+  }
+}
