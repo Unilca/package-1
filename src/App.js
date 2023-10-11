@@ -1,43 +1,25 @@
 import React from "react";
-import "./styles.scss";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Trade from "./components/Trade";
+import Cart from "./components/Cart";
 
-const onClickEvent = (e) => {
-  e.preventDefault();
-  alert("You Clicked Me!");
-};
+export const AppContext = React.createContext();
 
-const App = () => {
+function App() {
+  const [stateA, setStateA] = React.useState(0);
+
   return (
-    <div className="content">
-      <div className={styles.label}>Tea & Juice & IceCream 😊</div>
-      <div className={styles.slider}>
-        <div className={styles.slide}>
-          <img
-            className={styles.img}
-            src="https://vkusnoitochka.ru/resize/290x286/upload/iblock/450/si3zz7y9y94unt6djx2gw221dc9nx0jh/large.png"
-            alt="tea"
-          />
-          <img
-            className={styles.img}
-            src="https://vkusnoitochka.ru/resize/290x286/upload/iblock/f67/3kqlujh1qx1oqw5hixxf7jc5lur97dva/large.png"
-            alt="juice"
-          />
-          <img
-            className={styles.img}
-            src="https://vkusnoitochka.ru/resize/290x286/upload/iblock/38c/0ii7grmoxo058li8pjwdap6kh36hn1qe/large.png"
-            alt="icecream"
-          />
-        </div>
-      </div>
-      <div className={styles.label}>Price$</div>
-      <button className={styles.btn} onClick={onClickEvent}>
-        Next
-      </button>
-      <button className={styles.btn} onClick={onClickEvent}>
-        Buy 😎
-      </button>
+    <div>
+      <BrowserRouter>
+        <AppContext.Provider value={{ stateA, setStateA }}>
+          <Routes>
+            <Route path="/" element={<Trade />} />
+            <Route path="/cart" element={<Cart />} />
+          </Routes>
+        </AppContext.Provider>
+      </BrowserRouter>
     </div>
   );
-};
+}
 
 export default App;

@@ -1,16 +1,16 @@
 const webpack = require("webpack");
 const path = require("path");
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-
-const production = process.env.NODE_ENV === "production";
 
 module.exports = {
   entry: { myAppName: path.resolve(__dirname, "./src/index.js") },
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: production ? "[name].[contenthash].js" : "[name].js",
+    publicPath: "/",
+    filename: "main.js",
   },
   module: {
     rules: [
@@ -20,23 +20,18 @@ module.exports = {
         use: ["babel-loader"],
       },
       {
-        test: /\.s(a|c)ss$/,
-        exclude: /node_modules/,
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/i,
         use: [
-          production ? MiniCssExtractPlugin.loader : "style-loader",
-          {
-            loader: "css-loader",
-            options: {
-              modules: true,
-              sourceMap: !production,
-            },
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: !production,
-            },
-          },
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
         ],
       },
     ],
@@ -48,16 +43,14 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      title: "Webpack & React",
+      title: "Webpack/React mini shop",
       template: "./src/index.html",
     }),
-    new MiniCssExtractPlugin({
-      filename: production ? "[name].[contenthash].css" : "[name].css",
-    }),
+    new MiniCssExtractPlugin(),
   ],
   devServer: {
     port: 3000,
     hot: true,
+    historyApiFallback: true,
   },
-  mode: production ? "production" : "development",
 };
